@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:lang="http://www.springframework.org/schema/lang" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		   http://www.springframework.org/schema/task
+   http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<context:annotation-config />
+	<mvc:annotation-driven />
+	
+	<bean class="com.seniorgeek.samples.jetty_springmvc_json.controller.MyController"  />
+
+	<!-- JSON -->
+	<bean name="jsonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
+	<bean name="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+	
+	<bean
+		class="com.seniorgeek.samples.jetty_springmvc_json.controller.support.AnnotationMethodHandlerAdapterConfigurer">
+		<property name="messageConverters">
+			<util:list id="beanList">
+				<ref bean="jsonHttpMessageConverter" />
+			</util:list>
+		</property>
+		<property name="customModelAndViewResolver">
+			<bean class="com.seniorgeek.samples.jetty_springmvc_json.controller.support.SampleModelAndViewResolver" />
+		</property>
+	</bean>
+</beans>
